@@ -1,0 +1,63 @@
+//1、把秒数转换成天和小时
+function getDayAndHoursBySeconds( seconds )
+{
+
+	var day = Math.floor(seconds/3600/24) ;
+	var hours = Math.floor((seconds - day*24*3600)/3600) ;
+
+	return { "days" : day , "hours" : hours }
+}
+
+//---------------------------------------------------------------------------
+
+/**
+*2、将一个月的日期，根据星期一至星期日排成数组
+*@param int      year
+*@param int      month
+*@return Array  [
+  [1,2],
+  [3,4,5,6,7,8,9],
+  [10,11,12,31,14,15,16],
+  [17,18,19,20,21,22,23],
+  [24,25,26,27,2,29,30]
+]
+*/
+function getDayInWeak(year , month){
+
+	var date = new Date( year , month  , 0) ;
+	
+	var datelength = date.getDate() ;  //该月一共有多少天
+	
+	var monday_arr = [] ;
+
+	for(var i = 1 ; i <= datelength ;i++)
+	{
+		var date = new Date(year+"-"+month+"-"+i) ;
+		var week = date.getDay() ;
+		if( week == 0 ) monday_arr.push(i);
+	}
+
+	return {"monday_arr" : monday_arr , days : datelength}
+
+
+}
+
+
+var res = getDayInWeak(2017 , 4);
+var result_obj = [];
+var mondays = [0].concat( res.monday_arr );
+var date_arr = [] 
+
+for( var i=1 ; i <= res.days ; i++ )
+{
+	date_arr.push( i );
+}
+
+for( var i = 0 ; i  < mondays.length-1 ; i++ )
+{
+	result_obj.push( date_arr.slice( mondays[i] , mondays[i+1] ) );
+	//console.log( "第" + (i+1) + "组" , date_arr.slice( mondays[i] , mondays[i+1] ) );
+
+}
+
+console.log( result_obj );
